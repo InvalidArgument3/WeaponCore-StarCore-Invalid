@@ -415,6 +415,7 @@ namespace CoreSystems.Support
             Field,
             Effect,
             Water,
+            PhysicsPhantom
         }
 
         public readonly List<RootBlocks> Blocks = new List<RootBlocks>(16);

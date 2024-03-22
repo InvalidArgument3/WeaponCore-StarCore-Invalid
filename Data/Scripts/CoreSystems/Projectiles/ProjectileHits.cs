@@ -19,6 +19,7 @@ using Jakaria.API;
 using static CoreSystems.Projectiles.Projectile;
 using static CoreSystems.Support.VoxelIntersect;
 using System.Runtime.CompilerServices;
+using VRage.ModAPI;
 
 namespace CoreSystems.Projectiles
 {
@@ -487,6 +488,21 @@ namespace CoreSystems.Projectiles
                     hitEntity = pool.Count > 0 ? pool.Pop() : new HitEntity();
                     hitEntity.Pool = pool;
                     hitEntity.EventType = Destroyable;
+                }
+                else if (ent is IMyEntity)
+                {
+                    var physicsBody = ent.Physics;
+                    if (physicsBody != null)
+                    {
+                        var isPhantom = physicsBody.IsPhantom;
+
+                        if ((RigidBodyFlag.RBF_STATIC) != 0 &&
+                            isPhantom &&
+                            (CollisionLayers.NoVoxelCollisionLayer) != 0)
+                        {
+                            MyAPIGateway.Utilities.ShowNotification("we hit a thing");
+                        }
+                    }
                 }
 
                 if (hitEntity != null)
